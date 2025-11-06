@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { AboutComponent } from './components/about/about.component';
-import { ServicesComponent } from './components/services/services.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { AppointmentComponent } from './components/appointment/appointment.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
@@ -15,7 +14,6 @@ import { FooterComponent } from './components/footer/footer.component';
     NavigationComponent,
     HeroComponent,
     AboutComponent,
-    ServicesComponent,
     PricingComponent,
     AppointmentComponent,
     GalleryComponent,
