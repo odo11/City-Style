@@ -15,7 +15,6 @@ export class NavigationComponent {
   protected readonly links = [
     { label: 'Start', target: '#start' },
     { label: 'Über uns', target: '#ueber-uns' },
-    { label: 'Services', target: '#services' },
     { label: 'Preise', target: '#preise' },
     { label: 'Galerie', target: '#galerie' },
     { label: 'Kontakt', target: '#kontakt' }
