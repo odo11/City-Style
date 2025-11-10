@@ -1,6 +1,6 @@
 <header [class.scrolled]="scrolled">
   <nav class="nav-container">
-    <a class="brand" href="#start" (click)="closeMobileMenu()">
+    <a class="brand" href="/#start" (click)="closeMobileMenu()">
       <span>City</span>-Style
     </a>
 
@@ -15,7 +15,7 @@
         <a [href]="link.target" (click)="closeMobileMenu()">{{ link.label }}</a>
       </li>
       <li class="cta">
-        <a href="#termine" (click)="closeMobileMenu()">Termin buchen</a>
+        <a href="/#termine" (click)="closeMobileMenu()">Termin buchen</a>
       </li>
     </ul>
   </nav>

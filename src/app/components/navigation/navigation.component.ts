@@ -13,11 +13,12 @@ export class NavigationComponent {
   protected scrolled = false;
 
   protected readonly links = [
-    { label: 'Start', target: '#start' },
-    { label: 'Über uns', target: '#ueber-uns' },
-    { label: 'Preise', target: '#preise' },
-    { label: 'Galerie', target: '#galerie' },
-    { label: 'Kontakt', target: '#kontakt' }
+    { label: 'Start', target: '/#start' },
+    { label: 'Über uns', target: '/#ueber-uns' },
+    { label: 'Preise', target: '/#preise' },
+    { label: 'Galerie', target: '/#galerie' },
+    { label: 'Kontakt', target: '/#kontakt' },
+    { label: 'Impressum', target: '/datenschutzundimpressum' }
   ];
 
   toggleMobileMenu(): void {
