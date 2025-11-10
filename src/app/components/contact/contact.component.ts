@@ -10,9 +10,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ContactComponent {
   protected readonly socials = [
-    { label: 'Instagram', url: 'https://www.instagram.com/', handle: '@citystyle.salon' },
-    { label: 'TikTok', url: 'https://www.tiktok.com/', handle: '@citystyle.styling' },
-    { label: 'Pinterest', url: 'https://www.pinterest.de/', handle: 'City-Style Hair' }
+    { label: 'Instagram', url: 'https://www.instagram.com/city0style/', handle: '@citystyle.salon' },
+    { label: 'Facebook', url: 'https://www.facebook.com/City0Style/', handle: '/citystyle.salon' }
   ];
 
   protected readonly hours = [
