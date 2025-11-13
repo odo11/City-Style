@@ -16,6 +16,6 @@ interface Highlight {
 export class AboutComponent {
   protected readonly highlights: Highlight[] = [
     { value: '15+', label: 'Jahre Erfahrung im Hair Design' },
-    { value: '1.200+', label: 'zufriedene Stammkund:innen' },
+    { value: '1.200+', label: 'zufriedene Kunden' },
   ];
 }
