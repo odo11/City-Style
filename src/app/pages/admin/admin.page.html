@@ -1,0 +1,27 @@
+<section class="admin-hero">
+  <div class="admin-hero__content">
+    <h1>Terminverwaltung</h1>
+    <p>Gesicherter Bereich für internen Zugriff auf eingegangene Termine.</p>
+  </div>
+</section>
+
+<section class="admin-content">
+  <div class="login-card" *ngIf="!isAuthenticated(); else overview">
+    <h2>Anmeldung</h2>
+    <form [formGroup]="authForm" (ngSubmit)="login()">
+      <label>
+        <span>Passwort</span>
+        <input type="password" formControlName="password" placeholder="Admin-Passwort" />
+        <small class="error" *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid">
+          Mindestens 8 Zeichen.
+        </small>
+      </label>
+      <button type="submit">Login</button>
+      <p class="error" *ngIf="errorMsg()">{{ errorMsg() }}</p>
+    </form>
+  </div>
+
+  <ng-template #overview>
+    <app-appointment-overview></app-appointment-overview>
+  </ng-template>
+</section>

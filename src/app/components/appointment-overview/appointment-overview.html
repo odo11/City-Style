@@ -6,7 +6,7 @@
   </div>
 
   <div *ngIf="appointments$ | async as appointments; else loading">
-    <div *ngIf="appointments.length; else empty">
+    <div *ngIf="appointments.length; else empty" class="table-wrapper">
       <table class="appointment-table">
         <thead>
           <tr>
@@ -25,8 +25,8 @@
             <td>{{ a.time }}</td>
             <td>{{ a.name }}</td>
             <td>{{ a.email }}</td>
-            <td>{{ a.service }}</td>
-            <td>{{ a.stylist }}</td>
+            <td><span class="badge service">{{ a.service }}</span></td>
+            <td><span class="badge stylist">{{ a.stylist }}</span></td>
             <td>{{ a.notes || '–' }}</td>
           </tr>
         </tbody>
@@ -34,11 +34,11 @@
     </div>
 
     <ng-template #empty>
-      <p>Es sind noch keine Termine vorhanden.</p>
+      <p class="empty-state">Es sind noch keine Termine vorhanden.</p>
     </ng-template>
   </div>
 
   <ng-template #loading>
-    <p>Lade Termine …</p>
+    <p class="loading-state">Lade Termine …</p>
   </ng-template>
 </section>

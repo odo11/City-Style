@@ -9,9 +9,7 @@ export const routes: Routes = [
   {
     path: 'admin/termine',
     loadComponent: () =>
-      import('./components/appointment-overview/appointment-overview')
-        .then(m => m.AppointmentOverviewComponent)
-
+      import('./pages/admin/admin.page').then(m => m.AdminPageComponent)
   },
   {
     path: 'datenschutzundimpressum',

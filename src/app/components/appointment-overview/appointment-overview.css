@@ -1,23 +1,94 @@
 .appointment-overview {
-  max-width: 900px;
-  margin: 3rem auto;
-  padding: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.section-heading .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.4rem;
+  color: #dcbf68;
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.section-heading h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.1rem, 3vw, 3rem);
+  margin-bottom: 0.6rem;
 }
 
 .appointment-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  background: #fff;
+  border-radius: 1.4rem;
+  box-shadow: 0 24px 55px rgba(12, 10, 24, 0.12);
+  overflow: hidden;
+}
+
+.appointment-table thead {
+  background: linear-gradient(120deg, rgba(220, 191, 104, 0.65), rgba(52, 34, 77, 0.75));
+  color: #fff;
 }
 
 .appointment-table th,
 .appointment-table td {
-  border: 1px solid #eee;
-  padding: 0.4rem 0.6rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(12, 10, 24, 0.06);
 }
 
-.appointment-table th {
-  background: #fafafa;
-  text-align: left;
+.appointment-table tbody tr:hover {
+  background: rgba(220, 191, 104, 0.08);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.badge.service {
+  background: rgba(220, 191, 104, 0.15);
+  color: #8c6b1a;
+}
+
+.badge.stylist {
+  background: rgba(12, 10, 24, 0.08);
+  color: rgba(12, 10, 24, 0.7);
+}
+
+.empty-state,
+.loading-state {
+  text-align: center;
+  color: rgba(12, 10, 24, 0.6);
+  padding: 2rem 0;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .appointment-overview {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .appointment-table {
+    display: block;
+    overflow-x: auto;
+  }
 }
