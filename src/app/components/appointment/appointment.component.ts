@@ -79,29 +79,24 @@ export class AppointmentComponent {
 
   this.isSubmitting = true;
   try {
-    // 1) Termin in Firestore speichern
+    // Schritt 1: Termin in Firestore speichern
     await this.bookingService.bookAppointment(val);
 
-    // 2) E-Mails über Vercel + Resend senden
-    try {
-      await fetch('https://city-style-mail-api-simple.vercel.app/api/send-appointment', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(val)
-});
-
-    } catch (mailError) {
-      console.error('Fehler beim E-Mail-Versand (Resend/Vercel):', mailError);
-      // Termin ist trotzdem gespeichert – wir zeigen nur keinen harten Fehler
-    }
+    // Schritt 2: Email-Versand über Vercel + Resend
+    await fetch('https://city-style-mail-api.vercel.app/api/send-appointment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(val)
+    });
 
     this.submitSuccess = true;
     this.appointmentForm.reset();
     this.selectedTime = null;
     this.submitted = false;
+
   } catch (e: any) {
-    console.error('Firebase booking error:', e);
-    this.submitError = 'Ups! Termin konnte nicht gespeichert werden. Bitte versuche es später erneut.';
+    console.error('Fehler bei Buchung oder Mail-Versand:', e);
+    this.submitError = 'Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut.';
   } finally {
     this.isSubmitting = false;
   }
