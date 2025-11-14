@@ -64,33 +64,49 @@ export class AppointmentComponent {
     control?.markAsTouched();
   }
 
+  
   async submit() {
-    this.submitted = true;
-    this.submitError = '';
-    this.submitSuccess = false;
+  this.submitted = true;
+  this.submitError = '';
+  this.submitSuccess = false;
 
-    if (this.appointmentForm.invalid) {
-      this.appointmentForm.markAllAsTouched();
-      return;
-    }
-
-    const val: AppointmentPayload = this.appointmentForm.value;
-
-    this.isSubmitting = true;
-    try {
-      await this.bookingService.bookAppointment(val);
-      this.submitSuccess = true;
-      this.appointmentForm.reset();
-      this.selectedTime = null;
-      this.submitted = false;
-    } catch (e: any) {
-      const msg = e?.message || '';
-      this.submitError = msg || 'Ups! Termin konnte nicht gespeichert werden. Bitte versuche es später erneut.';
-      console.error('Firebase booking error:', e);
-    } finally {
-      this.isSubmitting = false;
-    }
+  if (this.appointmentForm.invalid) {
+    this.appointmentForm.markAllAsTouched();
+    return;
   }
+
+  const val: AppointmentPayload = this.appointmentForm.value;
+
+  this.isSubmitting = true;
+  try {
+    // 1) Termin in Firestore speichern
+    await this.bookingService.bookAppointment(val);
+
+    // 2) E-Mails über Vercel + Resend senden
+    try {
+      await fetch('https://city-style-mail-api-simple.vercel.app/api/send-appointment', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(val)
+});
+
+    } catch (mailError) {
+      console.error('Fehler beim E-Mail-Versand (Resend/Vercel):', mailError);
+      // Termin ist trotzdem gespeichert – wir zeigen nur keinen harten Fehler
+    }
+
+    this.submitSuccess = true;
+    this.appointmentForm.reset();
+    this.selectedTime = null;
+    this.submitted = false;
+  } catch (e: any) {
+    console.error('Firebase booking error:', e);
+    this.submitError = 'Ups! Termin konnte nicht gespeichert werden. Bitte versuche es später erneut.';
+  } finally {
+    this.isSubmitting = false;
+  }
+}
+
 
   private createTimeSlots(startHour: number, endHour: number, intervalMinutes: number): string[] {
     const slots: string[] = [];
