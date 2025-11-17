@@ -1,3 +1,4 @@
+// src/app/components/appointment/appointment.component.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -64,44 +65,63 @@ export class AppointmentComponent {
     control?.markAsTouched();
   }
 
-  
   async submit() {
-  this.submitted = true;
-  this.submitError = '';
-  this.submitSuccess = false;
+    console.log('✅ submit() aufgerufen');
 
-  if (this.appointmentForm.invalid) {
-    this.appointmentForm.markAllAsTouched();
-    return;
+    this.submitted = true;
+    this.submitError = '';
+    this.submitSuccess = false;
+
+    if (this.appointmentForm.invalid) {
+      console.warn('❌ Formular ist ungültig', this.appointmentForm.value);
+      this.appointmentForm.markAllAsTouched();
+      return;
+    }
+
+    const val: AppointmentPayload = this.appointmentForm.value;
+    console.log('📦 Payload für Firestore & Mail:', val);
+
+    this.isSubmitting = true;
+    try {
+      // Schritt 1: Termin in Firestore speichern
+      console.log('💾 Speichere Termin in Firestore …');
+      await this.bookingService.bookAppointment(val);
+      console.log('✅ Termin in Firestore gespeichert');
+
+      // Schritt 2: Email-Versand über Vercel + Resend
+      console.log('📨 Sende Daten an Vercel/Resend …');
+      const response = await fetch('https://city-style-mail-api.vercel.app/api/send-appointment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(val)
+      });
+
+      console.log('🔁 Response von Vercel:', response.status, response.statusText);
+      let bodyText = '';
+      try {
+        bodyText = await response.text();
+        console.log('📨 Response-Body:', bodyText);
+      } catch (e) {
+        console.warn('Konnte Response-Body nicht lesen', e);
+      }
+
+      if (!response.ok) {
+        throw new Error(`E-Mail API Fehler: ${response.status} ${bodyText}`);
+      }
+
+      this.submitSuccess = true;
+      this.appointmentForm.reset();
+      this.selectedTime = null;
+      this.submitted = false;
+      console.log('🎉 Alles erfolgreich – Termin + E-Mails');
+
+    } catch (e: any) {
+      console.error('❌ Fehler bei Buchung oder Mail-Versand:', e);
+      this.submitError = 'Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut.';
+    } finally {
+      this.isSubmitting = false;
+    }
   }
-
-  const val: AppointmentPayload = this.appointmentForm.value;
-
-  this.isSubmitting = true;
-  try {
-    // Schritt 1: Termin in Firestore speichern
-    await this.bookingService.bookAppointment(val);
-
-    // Schritt 2: Email-Versand über Vercel + Resend
-    await fetch('https://city-style-mail-api.vercel.app/api/send-appointment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(val)
-    });
-
-    this.submitSuccess = true;
-    this.appointmentForm.reset();
-    this.selectedTime = null;
-    this.submitted = false;
-
-  } catch (e: any) {
-    console.error('Fehler bei Buchung oder Mail-Versand:', e);
-    this.submitError = 'Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut.';
-  } finally {
-    this.isSubmitting = false;
-  }
-}
-
 
   private createTimeSlots(startHour: number, endHour: number, intervalMinutes: number): string[] {
     const slots: string[] = [];
