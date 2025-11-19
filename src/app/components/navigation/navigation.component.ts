@@ -17,8 +17,7 @@ export class NavigationComponent {
     { label: 'Über uns', target: '/#ueber-uns' },
     { label: 'Preise', target: '/#preise' },
     { label: 'Galerie', target: '/#galerie' },
-    { label: 'Kontakt', target: '/#kontakt' },
-    { label: 'Impressum', target: '/datenschutzundimpressum' }
+    { label: 'Kontakt', target: '/#kontakt' }
   ];
 
   toggleMobileMenu(): void {

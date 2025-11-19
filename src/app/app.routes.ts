@@ -7,11 +7,6 @@ export const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'admin/termine',
-    loadComponent: () =>
-      import('./pages/admin/admin.page').then(m => m.AdminPageComponent)
-  },
-  {
     path: 'datenschutzundimpressum',
     loadComponent: () => import('./pages/legal/legal.component').then(m => m.LegalComponent)
   },
